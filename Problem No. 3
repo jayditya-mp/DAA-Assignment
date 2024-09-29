@@ -1,0 +1,50 @@
+*** This problem  Implementation of Fractional KnapSack Time Complexity: O(n log n)
+# Class to store the item details
+class Item:
+    def __init__(self, value, weight):
+        self.value = value
+        self.weight = weight
+
+# Function to get the maximum total value in the knapsack
+def fractional_knapsack(W, items):
+    # Sorting items by value/weight ratio in descending order
+    items.sort(key=lambda item: item.value / item.weight, reverse=True)
+
+    # Total value in the knapsack
+    total_value = 0.0
+    for item in items:
+        if W >= item.weight:
+            # If the item can be fully taken, take it
+            total_value += item.value
+            W -= item.weight
+        else:
+            # If only a fraction of the item can be taken
+            total_value += item.value * (W / item.weight)
+            break  # Knapsack is full now
+
+    return total_value
+
+# Example usage:
+if __name__ == "__main__":
+    # Item values and weights
+    values = [60, 50, 110]
+    weights = [30, 30, 40]
+    W = 40  # Knapsack capacity
+    
+    # Create a list of Items
+    items = [Item(values[i], weights[i]) for i in range(len(values))]
+    
+    # Function call
+    max_value = fractional_knapsack(W, items)
+    print(f"Maximum value in Knapsack = {max_value:.2f}")
+
+ Info Time Complexity Time Complexity:
+Sorting the items takes 𝑂(𝑛log
+⁡𝑛)O(nlogn), where 𝑛 n is the number of items.
+The greedy selection process takes 
+𝑂(𝑛)
+O(n).
+Thus, the overall time complexity is 
+𝑂(𝑛
+log⁡𝑛)
+O(nlogn).
