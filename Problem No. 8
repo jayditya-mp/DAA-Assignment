@@ -1,0 +1,27 @@
+def merge_intervals(intervals):
+    # Base case: if the list of intervals is empty
+    if not intervals:
+        return []
+
+    # Step 1: Sort intervals based on their start time
+    intervals.sort(key=lambda x: x[0])
+
+    # Step 2: Initialize an empty list to store the merged intervals
+    merged = []
+
+    # Step 3: Iterate through the intervals and merge when necessary
+    for interval in intervals:
+        # If merged is empty or there is no overlap with the last interval in merged
+        if not merged or merged[-1][1] < interval[0]:
+            merged.append(interval)  # Add the current interval
+        else:
+            # Merge the current interval with the last one
+            merged[-1][1] = max(merged[-1][1], interval[1])
+
+    return merged
+
+# Example usage
+if __name__ == "__main__":
+    intervals = [[3, 4], [4, 8], [8, 12], [12, 15]]
+    result = merge_intervals(intervals)
+    print(f"Merged intervals: {result}")
