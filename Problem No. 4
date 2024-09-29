@@ -1,0 +1,63 @@
+import sys
+
+# Function to find the vertex with the minimum key value from the set of vertices not yet included in the MST
+def min_key(key, mst_set, V):
+    min_value = sys.maxsize
+    min_index = -1
+
+    for v in range(V):
+        if key[v] < min_value and not mst_set[v]:
+            min_value = key[v]
+            min_index = v
+
+    return min_index
+
+# Function to print the constructed MST
+def print_mst(parent, graph, V):
+    print("Edge \tWeight")
+    for i in range(1, V):
+        print(f"{parent[i]} - {i} \t{graph[i][parent[i]]}")
+
+# Function that implements Prim's algorithm
+def prim_mst(graph, V):
+    # Array to store the constructed MST
+    parent = [-1] * V
+
+    # Key values used to pick the minimum weight edge in cut
+    key = [sys.maxsize] * V
+
+    # To represent set of vertices included in MST
+    mst_set = [False] * V
+
+    # Start with the first vertex (arbitrary choice)
+    key[0] = 0
+    parent[0] = -1  # First node is always the root of the MST
+
+    for _ in range(V):
+        # Pick the vertex with the minimum key value not yet included in the MST
+        u = min_key(key, mst_set, V)
+
+        # Add the chosen vertex to the MST set
+        mst_set[u] = True
+
+        # Update the key value and parent index of the adjacent vertices of the picked vertex
+        for v in range(V):
+            # graph[u][v] is the weight of the edge u-v
+            # Update key only if graph[u][v] is smaller than key[v]
+            if graph[u][v] > 0 and not mst_set[v] and key[v] > graph[u][v]:
+                key[v] = graph[u][v]
+                parent[v] = u
+
+    # Print the constructed MST
+    print_mst(parent, graph, V)
+
+# Example usage
+if __name__ == "__main__":
+    V = 5
+    graph = [[0, 3, 0, 9, 0],
+             [4, 0, 1, 6, 5],
+             [0, 2, 0, 0, 6],
+             [5, 7, 0, 0, 8],
+             [0, 3, 5, 7, 0]]
+
+    prim_mst(graph, V)
