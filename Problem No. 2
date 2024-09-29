@@ -1,0 +1,48 @@
+*** In this problem no 2 Implementation of Max-Min by using Divide and Conquer principal Time Complexity:
+ O(n)
+def find_max_min(arr, low, high):
+    # Base case: If there is only one element
+    if low == high:
+        return (arr[low], arr[low])
+
+    # If there are two elements, return the min and max
+    if high == low + 1:
+        if arr[low] < arr[high]:
+            return (arr[low], arr[high])
+        else:
+            return (arr[high], arr[low])
+
+    # If there are more than two elements, divide the array into two halves
+    mid = (low + high) // 2
+
+    # Recursively find the min and max in both halves
+    left_min, left_max = find_max_min(arr, low, mid)
+    right_min, right_max = find_max_min(arr, mid + 1, high)
+
+    # Combine results: overall min is the smaller of the two mins
+    # and overall max is the larger of the two maxes
+    overall_min = min(left_min, right_min)
+    overall_max = max(left_max, right_max)
+
+    return (overall_min, overall_max)
+
+# Example usage:
+arr = [1, 2, 3, 4, 5, 6, 7, 8]
+n = len(arr)
+min_val, max_val = find_max_min(arr, 0, n-1)
+print("Minimum value:", min_val)
+print("Maximum value:", max_val)
+
+Info about time complexity for using this problem :
+Time Complexity Analysis:
+At each level of recursion, the array is split into two halves.
+Each comparison between two elements is constant time 
+𝑂
+(1)
+O(1).
+There are log
+𝑛
+logn levels of recursion, and each level does a constant amount of work (combining the results).
+Thus, the overall time complexity is 
+𝑂(𝑛)
+O(n), as the array is only processed once through recursion.
