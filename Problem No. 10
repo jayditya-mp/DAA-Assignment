@@ -1,0 +1,21 @@
+def min_coins(coins, amount):
+    # Initialize dp array where dp[i] will be storing the minimum number of coins
+    # required for amount i. Initialize all values as amount + 1, which is a large value.
+    dp = [amount + 1] * (amount + 1)
+    
+    # Base case: if the amount is 0, 0 coins are required.
+    dp[0] = 0
+
+    # Loop through each amount from 1 to the given amount.
+    for i in range(1, amount + 1):
+        for coin in coins:
+            if coin <= i:
+                dp[i] = min(dp[i], dp[i - coin] + 1)
+
+    # If dp[amount] is still amount + 1, then it's impossible to form the amount.
+    return dp[amount] if dp[amount] != amount + 1 else -1
+
+# Example usage
+coins = [2, 3, 4]  # denominations of the coins
+amount = 11  # target amount
+print(f"Minimum coins required: {min_coins(coins, amount)}")
