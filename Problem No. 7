@@ -1,0 +1,34 @@
+def lemonade_change(bills):
+    five_count = 0  # To store the count of $5 bills
+    ten_count = 0   # To store the count of $10 bills
+
+    for bill in bills:
+        if bill == 5:
+            # Customer gives $5, no change needed
+            five_count += 1
+        elif bill == 10:
+            # Customer gives $10, need to return $5
+            if five_count > 0:
+                five_count -= 1
+                ten_count += 1
+            else:
+                return False
+        elif bill == 20:
+            # Customer gives $20, need to return $15
+            if ten_count > 0 and five_count > 0:
+                # Prefer giving one $10 and one $5
+                ten_count -= 1
+                five_count -= 1
+            elif five_count >= 3:
+                # Otherwise give three $5 bills
+                five_count -= 3
+            else:
+                return False
+
+    return True
+
+# Example usage
+if __name__ == "__main__":
+    bills = [2, 2, 2, 20, 30]
+    result = lemonade_change(bills)
+    print(f"Can provide change: {result}")
